@@ -66,6 +66,7 @@ Your rails app will be run with the latest ruby 2.2 available on uberspace and i
 Configurable options:
 
 ```ruby
+set :ruby_version, '2.2'  # default is '2.2', can be set to every ruby version supported by uberspace.
 set :domain, nil          # if you want to deploy your app as a subdomain, configure it here. Use the full URI. E.g. my-custom.example.tld
 set :add_www_domain, true # default: true; set this to false if you do not want to also use your subdomain with prefixed www.
 ```
