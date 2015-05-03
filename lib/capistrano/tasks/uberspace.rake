@@ -7,7 +7,7 @@ namespace :uberspace do
     on roles fetch(:uberspace_roles) do
       with fetch(:uberspace_env_variables, {}) do
         within(uberspace_home) do
-          execute 'gem install bundler'
+          execute :gem,  'install bundler'
         end
       end
     end

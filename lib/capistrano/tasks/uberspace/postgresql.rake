@@ -45,7 +45,7 @@ namespace :uberspace do
       on roles fetch(:uberspace_roles) do
         with fetch(:uberspace_env_variables, {}) do
           within(uberspace_home) do
-            execute 'bundle config build.pg --with-pg-config=/package/host/localhost/postgresql-${POSTGRESVERSION}/bin/pg_config '
+            execute :bundle, 'config build.pg --with-pg-config=/package/host/localhost/postgresql-${POSTGRESVERSION}/bin/pg_config '
           end
         end
       end

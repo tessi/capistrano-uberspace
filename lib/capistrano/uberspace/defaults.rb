@@ -14,11 +14,13 @@ set :passenger_environment, -> { fetch(:rails_env) || fetch(:stage) }
 set :uberspace_roles, :all
 set :extra_env_variables, fetch(:extra_env_variables) || {}
 
-set :uberspace_env_variables, -> {
+set :uberspace_env_variables, lambda do
   {
     'PATH' => "/package/host/localhost/ruby-2.2/bin:#{uberspace_home}/.gem/ruby/2.2.0/bin:$PATH"
   }.merge(fetch :extra_env_variables)
-}
+end
+
+set :default_env, -> { fetch(:uberspace_env_variables) }
 
 %w(mysql postgresql sqlite3).each do |db|
   if Rake.application.tasks.collect(&:to_s).include?("uberspace:setup_#{db}")
@@ -26,5 +28,8 @@ set :uberspace_env_variables, -> {
   end
 end
 
-set :linked_dirs,  fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', 'public/uploads')
+set :linked_dirs,  fetch(:linked_dirs, []).push(%w(log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads))
 set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
+
+# default is "set :bundle_bins, %w{gem rake rails}", but we want to 'gem install bundler' without bundle :)
+set :bundle_bins, %w(rake rails)
