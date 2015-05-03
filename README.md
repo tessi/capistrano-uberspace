@@ -2,7 +2,7 @@
 
 Deploy your Rails App to [uberspace](uberspace.de) with Capistrano 3.
 
-Has support for MySQL, Potsgresql, and sqlite3 databases. Runs your app with ruby 2.2.
+Has support for MySQL, Potsgresql, and sqlite3 databases. Runs your app with any ruby version available at your uberpace.
 
 ## Installation
 
@@ -42,7 +42,7 @@ set :branch, :production
 set :domain, 'antwort.hochzeit.tessenow.org'
 ```
 
-Be sure to [setup the ssh-connection to your uberspace](https://wiki.uberspace.de/system:ssh#login_mit_ssh-schluessel1) first.
+Be sure to [setup the ssh-connection to your uberspace](https://wiki.uberspace.de/system:ssh#login_mit_ssh-schluessel1) and make sure that your uberspace is able to checkout your repository.
 
 ## Usage
 
@@ -59,9 +59,6 @@ require 'capistrano/uberspace/database'
 ```
 
 Please bundle the appropriate database-gem in your `Gemfile`.
-
-Your rails app will be run with the latest ruby 2.2 available on uberspace and is run with passenger. Thus, this gem has passenger as a dependency.
-
 
 Configurable options:
 
