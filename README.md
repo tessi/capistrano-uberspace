@@ -44,9 +44,7 @@ set :domain, 'my-subdomain.example.tld'
 
 Be sure to [setup the ssh-connection to your uberspace](https://wiki.uberspace.de/system:ssh#login_mit_ssh-schluessel1) and make sure that your uberspace is able to checkout your repository.
 
-## Usage
-
-Require in `Capfile` to use the default task:
+Require the following parts in your `Capfile`:
 
 ```ruby
 require 'capistrano/bundler'
@@ -59,6 +57,11 @@ require 'capistrano/uberspace/<database>'
 ```
 
 Please bundle the appropriate database-gem in your `Gemfile`.
+
+
+## Usage
+
+Execute `bundle exec cap deploy <stage>` to deploy to your uberspace.
 
 Configurable options:
 
