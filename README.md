@@ -39,7 +39,7 @@ server 'your-host.uberspace.de',
 
 set :user, 'uberspace-user'
 set :branch, :production
-set :domain, 'antwort.hochzeit.tessenow.org'
+set :domain, 'my-subdomain.example.tld'
 ```
 
 Be sure to [setup the ssh-connection to your uberspace](https://wiki.uberspace.de/system:ssh#login_mit_ssh-schluessel1) and make sure that your uberspace is able to checkout your repository.
@@ -54,8 +54,8 @@ require 'capistrano/rails'
 require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
 require 'capistrano/uberspace'
-# in the following line replace database with mysql, postgresql, or sqlite3
-require 'capistrano/uberspace/database'
+# in the following line replace <database> with mysql, postgresql, or sqlite3
+require 'capistrano/uberspace/<database>'
 ```
 
 Please bundle the appropriate database-gem in your `Gemfile`.
