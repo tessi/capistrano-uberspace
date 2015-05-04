@@ -1,6 +1,6 @@
 # Capistrano::Uberspace
 
-Deploy your Rails App to [uberspace](uberspace.de) with Capistrano 3.
+Deploy your Rails App to [uberspace](http://uberspace.de) with Capistrano 3.
 
 Has support for MySQL, Potsgresql, and sqlite3 databases. Runs your app with any ruby version available at your uberpace.
 
