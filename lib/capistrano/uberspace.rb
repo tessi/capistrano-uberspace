@@ -1,3 +1,4 @@
+require 'patches/sshkit/connection_pool'
 require 'capistrano/uberspace/dsl'
 
 load File.expand_path('../tasks/uberspace.rake', __FILE__)

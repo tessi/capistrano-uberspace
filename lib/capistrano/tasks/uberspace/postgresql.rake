@@ -4,14 +4,18 @@ namespace :uberspace do
       on roles fetch(:uberspace_roles) do
         unless test "[ -f #{uberspace_home}/.pgpass ]"
           execute 'uberspace-setup-postgresql'
+          # we have to re-login to make psql work
+          self.class.pool.close_all_connections
+          # setup backups, see: https://wiki.uberspace.de/database:postgresql#backup
+          execute 'uberspace-setup-postgresql-backup'
         end
 
         # Config file comes in the following format:
-        #hostname:port:database:username:password
-        #/home/username/tmp:*:*:username:password
-        my_cnf = capture('cat ~/.pgpass')
-        my_cnf = my_cnf.sub(/^.*\n/, '').split(':')
-        # my_cnf = [
+        # hostname:port:database:username:password
+        # /home/username/tmp:*:*:username:password
+        pg_config = capture('cat ~/.pgpass')
+        pg_config = pg_config.sub(/^.*\n/, '').split(':')
+        # pg_config = [
         #   [0] => hostname
         #   [1] => port
         #   [2] => database
@@ -26,8 +30,8 @@ namespace :uberspace do
             'database' => "#{fetch :user}_rails_#{fetch :application}_#{env}",
             'host' => "#{uberspace_home}/tmp"
           }
-          config[env]['username'] = my_cnf[3]
-          config[env]['password'] = my_cnf[4]
+          config[env]['username'] = pg_config[3]
+          config[env]['password'] = pg_config[4]
 
           unless test "psql -l | grep #{config[env]['database']}"
             execute :createdb, config[env]['database']

@@ -1,39 +1,7 @@
 namespace :uberspace do
   task :check do
   end
-  after :'deploy:check', :'uberspace:check'
-
-  task :install_bundler do
-    on roles fetch(:uberspace_roles) do
-      with fetch(:uberspace_env_variables, {}) do
-        within(uberspace_home) do
-          execute :gem,  'install bundler'
-        end
-      end
-    end
-  end
-  after :'uberspace:check', :'uberspace:install_bundler'
-
-  def passenger_port
-    @passenger_port ||= capture(:cat, "#{shared_path}/.passenger-port")
-  end
-
-  task :setup_passenger_port do
-    on roles fetch(:uberspace_roles) do
-      # find free and available port
-      unless test "[ -f #{shared_path}/.passenger-port ]"
-        port = capture('python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()\'')
-        upload! StringIO.new(port), "#{shared_path}/.passenger-port"
-      end
-    end
-  end
-  after :'uberspace:check', :'uberspace:setup_passenger_port'
-
-  task :setup_svscan do
-    on roles fetch(:uberspace_roles) do
-      execute 'test -d ~/service || uberspace-setup-svscan; echo 0'
-    end
-  end
+  before :'deploy:check:linked_files', :'uberspace:check'
 
   task :setup_gemrc do
     gemrc = <<-EOF
@@ -45,6 +13,41 @@ gem: --user-install --no-rdoc --no-ri
     end
   end
   after :'uberspace:check', :'uberspace:setup_gemrc'
+
+  task :install_bundler do
+    on roles fetch(:uberspace_roles) do
+      with fetch(:uberspace_env_variables, {}) do
+        within(uberspace_home) do
+          execute :gem,  'install bundler'
+        end
+      end
+    end
+  end
+  after :'uberspace:setup_gemrc', :'uberspace:install_bundler'
+
+  def passenger_port
+    @passenger_port ||= capture(:cat, "#{shared_path}/.passenger-port")
+  end
+
+  task :setup_passenger_port do
+    on roles fetch(:uberspace_roles) do
+      # find free and available port
+      unless test "[ -f #{shared_path}/.passenger-port ]"
+        port = capture('python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()\'')
+        execute :mkdir, "-p #{shared_path}"
+        upload! StringIO.new(port), "#{shared_path}/.passenger-port"
+      end
+    end
+  end
+  after :'uberspace:check', :'uberspace:setup_passenger_port'
+
+  task :setup_svscan do
+    on roles fetch(:uberspace_roles) do
+      execute 'test -d ~/service || uberspace-setup-svscan; echo 0'
+    end
+  end
+  after :'uberspace:check', :'uberspace:setup_svscan'
+
 
   task :setup_secrets do
     on roles fetch(:uberspace_roles) do
@@ -87,7 +90,7 @@ exec multilog t ./main
       execute                 "ln -nfs #{uberspace_home}/etc/run-rails-#{fetch :application} #{uberspace_home}/service/rails-#{fetch :application}"
     end
   end
-  after :'uberspace:check', :'uberspace:setup_daemon'
+  after :'deploy:updated', :'uberspace:setup_daemon'
 
   task :setup_apache_reverse_proxy do
     on roles fetch(:uberspace_roles) do
