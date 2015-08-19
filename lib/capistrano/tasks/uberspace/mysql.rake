@@ -1,8 +1,11 @@
+require 'inifile'
+
 namespace :uberspace do
   namespace :mysql do
     task :setup_database_and_config do
       on roles fetch(:uberspace_roles) do
         my_cnf = capture('cat ~/.my.cnf')
+        my_sql_config = IniFile.new(content: my_cnf)['client']
         config = {}
         stages.each do |env|
           config[env] = {
@@ -12,14 +15,9 @@ namespace :uberspace do
             'host' => 'localhost'
           }
 
-          my_cnf.match(/^user=(\w+)/)
-          config[env]['username'] = $1
-
-          my_cnf.match(/^password=(\w+)/)
-          config[env]['password'] = $1
-
-          my_cnf.match(/^port=(\d+)/)
-          config[env]['port'] = $1.to_i
+          config[env]['username'] = my_sql_config['user']
+          config[env]['password'] = my_sql_config['password']
+          config[env]['port'] = my_sql_config['port'].to_i
 
           execute "mysql -e 'CREATE DATABASE IF NOT EXISTS #{config[env]['database']} CHARACTER SET utf8 COLLATE utf8_general_ci;'"
         end

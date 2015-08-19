@@ -20,6 +20,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'capistrano', '~> 3.4.0'
   gem.add_dependency 'capistrano-rails'
   gem.add_dependency 'capistrano-bundler'
+  gem.add_dependency 'inifile', '~> 3.0.0'
 
   # dependencies for passenger on Uberspace
   gem.add_dependency 'passenger', '~> 5.0'
