@@ -14,6 +14,18 @@ gem: --user-install --no-rdoc --no-ri
   end
   after :'uberspace:check', :'uberspace:setup_gemrc'
 
+  task :setup_npmrc do
+    npmrc = <<-EOF
+prefix = #{uberspace_home}
+umask = 077
+    EOF
+
+    on roles fetch(:uberspace_roles) do
+      upload! StringIO.new(npmrc), "#{uberspace_home}/.npmrc"
+    end
+  end
+  after :'uberspace:check', :'uberspace:setup_npmrc'
+
   task :install_bundler do
     on roles fetch(:uberspace_roles) do
       with fetch(:uberspace_env_variables, {}) do
