@@ -31,7 +31,7 @@ set :ruby_path, -> { "/package/host/localhost/ruby-#{fetch :ruby_version}/bin" }
 
 set :uberspace_env_variables, lambda {
   {
-    'PATH' => "#{fetch :ruby_path}:#{fetch :gem_path}:$PATH"
+    'PATH' => "#{fetch :ruby_path}:#{fetch :gem_path}:/home/#{fetch :user}/bin:$PATH"
   }.merge(fetch :extra_env_variables)
 }
 
