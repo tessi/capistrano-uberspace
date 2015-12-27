@@ -61,7 +61,7 @@ Please bundle the appropriate database-gem in your `Gemfile`.
 
 ## Usage
 
-Execute `bundle exec cap deploy <stage>` to deploy to your uberspace.
+Execute `bundle exec cap <stage> deploy` to deploy to your uberspace.
 
 Configurable options:
 
