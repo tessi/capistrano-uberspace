@@ -17,7 +17,7 @@ And then execute:
 
     $ bundle
 
-In your `deploy.rb` file specify some app properties:
+In your `config/deploy.rb` file specify some app properties:
 
 ```ruby
 set :application, 'MyGreatApp'
