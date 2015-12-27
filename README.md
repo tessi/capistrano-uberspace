@@ -13,9 +13,15 @@ gem 'capistrano', '~> 3.4.0'
 gem 'capistrano-uberspace', github: 'tessi/capistrano-uberspace'
 ```
 
+If you do not install `capistrano-uberspace` in the `production`-group, then add `passenger` as a production dependency:
+
+```ruby
+gem 'passenger', group: :production
+```
+
 And then execute:
 
-    $ bundle
+    $ bundle install
 
 In your `config/deploy.rb` file specify some app properties:
 
