@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |gem|
   gem.name          = 'capistrano-uberspace'
-  gem.version       = '1.0.2'
+  gem.version       = '1.0.3'
   gem.authors       = ['Philipp Tessenow']
   gem.email         = ['philipp@tessenow.org']
   gem.description   = %q{uberspace support for your rails app for Capistrano 3.x}
