@@ -48,6 +48,15 @@ set :branch, :production
 set :domain, 'my-subdomain.example.tld'
 ```
 
+Optionally, you may specify HTTP BASIC AUTH authentication in your stage definition:
+
+```
+set :htaccess_username, "username"
+set :htaccess_password, "password"
+# instead of the :htaccess_password you may set the hashed password directly:
+# set :htaccess_password_hashed, "bi2wsSekmG6Yw"
+```
+
 Be sure to [setup the ssh-connection to your uberspace](https://wiki.uberspace.de/system:ssh#login_mit_ssh-schluessel1) and make sure that your uberspace is able to checkout your repository.
 
 Require the following parts in your `Capfile`:

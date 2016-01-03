@@ -106,14 +106,38 @@ exec multilog t ./main
 
   task :setup_apache_reverse_proxy do
     on roles fetch(:uberspace_roles) do
+      path = fetch(:domain) ? "/var/www/virtual/#{fetch :user}/#{fetch :domain}" : "/var/www/virtual/#{fetch :user}/html"
+      execute "mkdir -p #{path}"
+      basic_auth = ''
+
+      if fetch(:htaccess_username, false)
+        unless fetch(:htaccess_password_hashed, false)
+          password = fetch(:htaccess_password, -> { abort 'ERROR: Define either :htaccess_password or :htaccess_password_hashed'})
+          salt = [*'0'..'9',*'A'..'Z',*'a'..'z'].sample(2).join
+          set :htaccess_password_hashed, "#{password}".crypt(salt)
+        end
+
+        htpasswd = <<-EOF
+#{fetch :htaccess_username}:#{fetch :htaccess_password_hashed}
+        EOF
+        upload! StringIO.new(htpasswd), "#{path}/../.htpasswd"
+
+        basic_auth = <<-EOF
+AuthType Basic
+AuthName "Restricted"
+AuthUserFile #{File.join(path, '../.htpasswd')}
+Require valid-user
+        EOF
+      end
+      execute "chmod +r #{path}/../.htpasswd"
+
       htaccess = <<-EOF
+#{basic_auth}
 RewriteEngine On
 RewriteBase /
 RewriteRule ^(.*)$ http://localhost:#{passenger_port}/$1 [P]
       EOF
 
-      path = fetch(:domain) ? "/var/www/virtual/#{fetch :user}/#{fetch :domain}" : "/var/www/virtual/#{fetch :user}/html"
-      execute "mkdir -p #{path}"
       upload! StringIO.new(htaccess), "#{path}/.htaccess"
       execute "chmod +r #{path}/.htaccess"
 
