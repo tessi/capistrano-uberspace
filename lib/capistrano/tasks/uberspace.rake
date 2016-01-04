@@ -1,4 +1,16 @@
 namespace :uberspace do
+  namespace :db do
+    task :dump do
+      available_tasks = %w{mysql postgresql sqlite3}.map do |db|
+        "uberspace:#{db}:dump"
+      end.select do |task|
+        Rake::Task.task_defined?(task)
+      end
+
+      Rake.application[available_tasks.first].invoke
+    end
+  end
+
   task :check do
   end
   before :'deploy:check:linked_files', :'uberspace:check'

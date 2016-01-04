@@ -48,15 +48,6 @@ set :branch, :production
 set :domain, 'my-subdomain.example.tld'
 ```
 
-Optionally, you may specify HTTP BASIC AUTH authentication in your stage definition:
-
-```
-set :htaccess_username, "username"
-set :htaccess_password, "password"
-# instead of the :htaccess_password you may set the hashed password directly:
-# set :htaccess_password_hashed, "bi2wsSekmG6Yw"
-```
-
 Be sure to [setup the ssh-connection to your uberspace](https://wiki.uberspace.de/system:ssh#login_mit_ssh-schluessel1) and make sure that your uberspace is able to checkout your repository.
 
 Require the following parts in your `Capfile`:
@@ -84,15 +75,22 @@ Configurable options:
 set :ruby_version, '2.2'  # default is '2.2', can be set to every ruby version supported by uberspace.
 set :domain, nil          # if you want to deploy your app as a subdomain, configure it here. Use the full URI. E.g. my-custom.example.tld
 set :add_www_domain, true # default: true; set this to false if you do not want to also use your subdomain with prefixed www.
+
+# optionally, you can enable http basic auth with:
+set :htaccess_username, "username"
+set :htaccess_password, "password"
+# instead of the :htaccess_password you may set the hashed password directly:
+# set :htaccess_password_hashed, "bi2wsSekmG6Yw"
 ```
 
 Useful tasks:
 
 ```ruby
-deploy:start   # starts the server
-deploy:stop    # stops the server
-deploy:restart # restarts the server (automatically done after deploy)
-deploy:status  # shows the current status of the deamon which runs passenger
+deploy:start      # starts the server
+deploy:stop       # stops the server
+deploy:restart    # restarts the server (automatically done after deploy)
+deploy:status     # shows the current status of the deamon which runs passenger
+uberspace:db:dump # downloads the latest available backup of your remote database to tmp/dump.{sql,sqlite3}
 ```
 
 ## Contributing

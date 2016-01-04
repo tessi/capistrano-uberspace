@@ -1,5 +1,19 @@
 namespace :uberspace do
   namespace :postgresql do
+    task :dump do
+      on roles fetch(:uberspace_roles) do
+        remote_dumpfile = "#{uberspace_home}/tmp/dump.sql"
+        latest_backup = capture("ls -t #{uberspace_home}/postgresql-backup/*.sql.xz | head -1")
+        execute("xzcat #{latest_backup} > #{remote_dumpfile}")
+
+        tmp_dir = File.join(Dir.pwd, 'tmp')
+        Dir.mkdir tmp_dir unless File.directory?(tmp_dir)
+
+        download! remote_dumpfile, File.join(tmp_dir, 'dump.sql')
+        execute("rm #{remote_dumpfile}")
+      end
+    end
+
     task :setup_database_and_config do
       on roles fetch(:uberspace_roles) do
         unless test "[ -f #{uberspace_home}/.pgpass ]"
