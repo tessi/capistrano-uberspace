@@ -128,8 +128,8 @@ AuthName "Restricted"
 AuthUserFile #{File.join(path, '../.htpasswd')}
 Require valid-user
         EOF
+        execute "chmod +r #{path}/../.htpasswd"
       end
-      execute "chmod +r #{path}/../.htpasswd"
 
       htaccess = <<-EOF
 #{basic_auth}
