@@ -23,7 +23,7 @@ And then execute:
 
     $ bundle install
 
-In your `config/deploy.rb` file specify some app properties:
+In your `config/deploy.rb` file specify some app properties. Important: The application field will be used as part of the service name on uberspace. If you need to run the same application in multiple stages (for example production and staging) on the same server, assign unique application names here (for instance, application-production and application-staging in the according production.rb and staging.rb).
 
 ```ruby
 set :application, 'MyGreatApp'
