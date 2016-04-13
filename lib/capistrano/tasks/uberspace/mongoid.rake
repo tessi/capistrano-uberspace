@@ -7,7 +7,7 @@ namespace :uberspace do
           config[env] = {
               'clients' => {
                   'default' => {
-                      'uri' => ENV['MONGOID_DATABASE_URL']
+                      'uri' => ENV['MONGO_URL']
                   }
               }
           }

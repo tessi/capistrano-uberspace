@@ -2,7 +2,7 @@
 
 Deploy your Rails App to [uberspace](http://uberspace.de) with Capistrano 3.
 
-Has support for MySQL, Potsgresql, and sqlite3 databases. Runs your app with any ruby version available at your uberpace.
+Has support for MySQL, Potsgresql, mongoid and sqlite3 databases. Runs your app with any ruby version available at your uberpace.
 
 ## Installation
 
@@ -67,7 +67,7 @@ require 'capistrano/rails'
 require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
 require 'capistrano/uberspace'
-# in the following line replace <database> with mysql, postgresql, or sqlite3
+# in the following line replace <database> with mysql, mongoid, postgresql, or sqlite3
 require 'capistrano/uberspace/<database>'
 ```
 
@@ -84,6 +84,7 @@ Configurable options:
 set :ruby_version, '2.2'  # default is '2.2', can be set to every ruby version supported by uberspace.
 set :domain, nil          # if you want to deploy your app as a subdomain, configure it here. Use the full URI. E.g. my-custom.example.tld
 set :add_www_domain, true # default: true; set this to false if you do not want to also use your subdomain with prefixed www.
+set :mongo_url, 'mongodb://user:pass@localhost:PORT/DATABASE_NAME' # DATABASE_NAME could be ENV['APPLICATION']
 ```
 
 Useful tasks:
