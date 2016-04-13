@@ -7,7 +7,7 @@ namespace :uberspace do
           config[env] = {
               'clients' => {
                   'default' => {
-                      'uri' => fetch(:mongo_url)
+                      'uri' => "#{fetch(:MONGO_URL)}"
                   }
               }
           }
@@ -17,7 +17,9 @@ namespace :uberspace do
         execute "touch #{shared_path}/config/mongoid.yml"
         puts config.inspect
         puts "*"*50
-        puts "deploying to #{shared_path}/config.mongoid.yml"
+        puts "MONGO_URL #{fetch(:MONGO_URL)}"
+        puts "MONGO_URL #{ENV['MONGO_URL']}"
+        puts "deploying to #{shared_path}/config/mongoid.yml"
         upload! StringIO.new(config.to_yaml), "#{shared_path}/config/mongoid.yml"
       end
     end
