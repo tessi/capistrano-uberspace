@@ -7,7 +7,7 @@ namespace :uberspace do
           config[env] = {
               'clients' => {
                   'default' => {
-                      'uri' => ENV['MONGO_URL']
+                      'uri' => fetch(:mongo_url)
                   }
               }
           }
