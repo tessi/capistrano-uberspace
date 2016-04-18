@@ -17,7 +17,8 @@ namespace :uberspace do
                     "#{fetch(:mongo_host)}:#{fetch(:mongo_port)}"
                 ],
                 'password' => fetch(:mongo_password),
-                'user' => fetch(:mongo_user)
+                'user' => fetch(:mongo_user),
+                'auth_source' => fetch(:application)
             }}
           end
 
