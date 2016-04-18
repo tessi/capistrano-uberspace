@@ -18,11 +18,9 @@ namespace :uberspace do
                 'username' => fetch(:mongo_username)
             }}
           end
-          
+
           config[env] = {
-              'clients' => {
-                  default_params
-              }
+              'clients' => default_params
           }
         end
 
