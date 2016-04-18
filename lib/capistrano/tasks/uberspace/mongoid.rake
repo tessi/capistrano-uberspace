@@ -5,7 +5,7 @@ namespace :uberspace do
         config = {}
         stages.each do |env|
 
-          if fetch(:mongo_url, false)
+          if fetch(:mongo_uri, false)
             default_params = {'default' => {
                 'uri' => "#{fetch(:mongoid_uri)}"
 
@@ -13,7 +13,9 @@ namespace :uberspace do
           else
             default_params = {'default' => {
                 'database' => fetch(:application),
-                'hosts' => ["#{fetch(:mongo_host)}:#{fetch(:mongo_port)}"],
+                'hosts' => [
+                    "#{fetch(:mongo_host)}:#{fetch(:mongo_port)}"
+                ],
                 'password' => fetch(:mongo_password),
                 'username' => fetch(:mongo_username)
             }}
