@@ -84,7 +84,18 @@ Configurable options:
 set :ruby_version, '2.2'  # default is '2.2', can be set to every ruby version supported by uberspace.
 set :domain, nil          # if you want to deploy your app as a subdomain, configure it here. Use the full URI. E.g. my-custom.example.tld
 set :add_www_domain, true # default: true; set this to false if you do not want to also use your subdomain with prefixed www.
-set :mongo_url, 'mongodb://user:pass@localhost:PORT/DATABASE_NAME' # DATABASE_NAME could be ENV['APPLICATION']
+
+# Now you have two options
+
+set :mongo_db, "databaseName"
+set :mongo_host, "localhost"
+set :mongo_username, "your-mongodb-username" # must be created first (Do NOT use the ADMIN)
+set :mongo_password, "your-mongodb-password"
+
+# OR
+
+set :mongo_uri, 'mongodb://user:pass@localhost:PORT/DATABASE_NAME' # DATABASE_NAME could be ENV['APPLICATION']
+
 ```
 
 Useful tasks:

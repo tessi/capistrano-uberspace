@@ -4,11 +4,24 @@ namespace :uberspace do
       on roles fetch(:uberspace_roles) do
         config = {}
         stages.each do |env|
+
+          if fetch(:mongo_url, false)
+            default_params = {'default' => {
+                'uri' => "#{fetch(:mongoid_uri)}"
+
+            }}
+          else
+            default_params = {'default' => {
+                'database' => fetch(:application),
+                'hosts' => ["#{fetch(:mongo_host)}:#{fetch(:mongo_port)}"],
+                'password' => fetch(:mongo_password),
+                'username' => fetch(:mongo_username)
+            }}
+          end
+          
           config[env] = {
               'clients' => {
-                  'default' => {
-                      'uri' => "#{fetch(:mongo_url)}"
-                  }
+                  default_params
               }
           }
         end
