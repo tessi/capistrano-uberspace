@@ -89,7 +89,7 @@ set :add_www_domain, true # default: true; set this to false if you do not want 
 
 set :mongo_db, "databaseName"
 set :mongo_host, "localhost"
-set :mongo_username, "your-mongodb-username" # must be created first (Do NOT use the ADMIN)
+set :mongo_user, "your-mongodb-username" # must be created first (Do NOT use the ADMIN)
 set :mongo_password, "your-mongodb-password"
 
 # OR
