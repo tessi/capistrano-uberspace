@@ -36,6 +36,7 @@ namespace :uberspace do
         puts "APPLICATION #{ENV['APPLICATION']}"
         puts "deploying to #{shared_path}/config/mongoid.yml"
         upload! StringIO.new(config.to_yaml), "#{shared_path}/config/mongoid.yml"
+        set :linked_files, fetch(:linked_files, []).push('config/mongoid.yml')
       end
     end
 
