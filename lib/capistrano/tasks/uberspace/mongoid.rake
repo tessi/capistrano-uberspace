@@ -18,7 +18,8 @@ namespace :uberspace do
                 ],
                 'password' => fetch(:mongo_password),
                 'user' => fetch(:mongo_user),
-                'auth_source' => "admin"
+                'auth_source' => fetch(:application),
+                'roles' => ['dbOwner']
             }}
           end
 
