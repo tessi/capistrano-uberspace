@@ -1,3 +1,5 @@
+require 'inifile'
+
 namespace :uberspace do
   namespace :mongoid do
     task :setup_database_and_config do
@@ -30,10 +32,6 @@ namespace :uberspace do
 
         execute "mkdir -p #{shared_path}/config"
         execute "touch #{shared_path}/config/mongoid.yml"
-        puts config.inspect
-        puts "*"*50
-        puts "MONGO_URL #{fetch(:MONGO_URL)}"
-        puts "APPLICATION #{ENV['APPLICATION']}"
         puts "deploying to #{shared_path}/config/mongoid.yml"
         upload! StringIO.new(config.to_yaml), "#{shared_path}/config/mongoid.yml"
         set :linked_files, fetch(:linked_files, []).push('config/mongoid.yml')
