@@ -9,21 +9,25 @@ Has support for MySQL, Potsgresql, and sqlite3 databases. Runs your app with any
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'capistrano', '~> 3.4.0'
-gem 'capistrano-uberspace', github: 'tessi/capistrano-uberspace'
-```
+group :development do
+  gem 'capistrano', '~> 3.4.0'
+  gem 'capistrano-uberspace', github: 'tessi/capistrano-uberspace'
+end
 
-If you do not install `capistrano-uberspace` in the `production`-group, then add `passenger` as a production dependency:
-
-```ruby
-gem 'passenger', group: :production
+group :production do
+  # choose one:
+  gem 'passenger', group: :production
+  # or
+  gem 'puma', group: :production
+end
 ```
 
 And then execute:
 
     $ bundle install
 
-In your `config/deploy.rb` file specify some app properties. Important: The application field will be used as part of the service name on uberspace. If you need to run the same application in multiple stages (for example production and staging) on the same server, assign unique application names here (for instance, application-production and application-staging in the according production.rb and staging.rb).
+In your `config/deploy.rb` file specify some app properties.
+Important: The application field will be used as part of the service name on uberspace. If you need to run the same application in multiple stages (for example production and staging) on the same server, assign unique application names here (for instance, application-production and application-staging in the according production.rb and staging.rb).
 
 ```ruby
 set :application, 'MyGreatApp'
@@ -44,6 +48,7 @@ server 'your-host.uberspace.de',
        }
 
 set :user, 'uberspace-user'
+set :environment, :production
 set :branch, :production
 set :domain, 'my-subdomain.example.tld'
 ```
@@ -58,8 +63,9 @@ require 'capistrano/rails'
 require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
 require 'capistrano/uberspace'
-# in the following line replace <database> with mysql, postgresql, or sqlite3
-require 'capistrano/uberspace/<database>'
+
+require 'capistrano/uberspace/<database>'  # replace <database> with mysql, mongoid, postgresql, or sqlite3
+require 'capistrano/uberspace/<your-server>' # replace <your-server> with puma or passenger
 ```
 
 Please bundle the appropriate database-gem in your `Gemfile`.

@@ -9,7 +9,7 @@ set :bundle_flags, '--deployment'
 
 set :domain, nil
 set :add_www_domain, -> { !!fetch(:domain) }
-set :passenger_environment, -> { fetch(:rails_env) || fetch(:stage) }
+set :environment, -> { fetch(:rails_env) || fetch(:stage) }
 
 set :uberspace_roles, :all
 set :extra_env_variables, fetch(:extra_env_variables) || {}
