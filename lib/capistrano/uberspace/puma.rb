@@ -1,1 +1,1 @@
-load File.expand_path('../../tasks/uberspace/passenger.rake', __FILE__)
+load File.expand_path('../../tasks/uberspace/puma.rake', __FILE__)
