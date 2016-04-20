@@ -13,10 +13,14 @@ gem 'capistrano', '~> 3.4.0'
 gem 'capistrano-uberspace', github: 'tessi/capistrano-uberspace'
 ```
 
-If you do not install `capistrano-uberspace` in the `production`-group, then add `passenger` as a production dependency:
+If you do not install `capistrano-uberspace` in the `production`-group, then add `passenger` or `puma` as a production dependency:
 
 ```ruby
 gem 'passenger', group: :production
+
+# or
+
+gem 'puma', group: :production
 ```
 
 And then execute:
@@ -44,6 +48,7 @@ server 'your-host.uberspace.de',
        }
 
 set :user, 'uberspace-user'
+set :environment, :production
 set :branch, :production
 set :domain, 'my-subdomain.example.tld'
 ```
@@ -67,9 +72,9 @@ require 'capistrano/rails'
 require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
 require 'capistrano/uberspace'
-# in the following line replace <database> with mysql, mongoid, postgresql, or sqlite3
-require 'capistrano/uberspace/<database>'
-require 'capistrano/uberspace/<your-server>' # puma / passenger
+
+require 'capistrano/uberspace/<database>'  # replace <database> with mysql, mongoid, postgresql, or sqlite3
+require 'capistrano/uberspace/<your-server>' # replace <your-server> with puma or passenger
 ```
 
 Please bundle the appropriate database-gem in your `Gemfile`.
