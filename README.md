@@ -69,6 +69,7 @@ require 'capistrano/rails/migrations'
 require 'capistrano/uberspace'
 # in the following line replace <database> with mysql, mongoid, postgresql, or sqlite3
 require 'capistrano/uberspace/<database>'
+require 'capistrano/uberspace/<your-server>' # puma / passenger
 ```
 
 Please bundle the appropriate database-gem in your `Gemfile`.
@@ -83,17 +84,32 @@ Configurable options:
 ```ruby
 set :ruby_version, '2.2'  # default is '2.2', can be set to every ruby version supported by uberspace.
 set :domain, nil          # if you want to deploy your app as a subdomain, configure it here. Use the full URI. E.g. my-custom.example.tld
-set :add_www_domain, true # default: true; set this to false if you do not want to also use your subdomain with prefixed www.
+set :add_www_domain, true # default: true; set this to false if you do not want to also use your subdomain with prefixed www.`
+```
 
-# Now you have two options
+### Now you have two options (the first is the prefered one)
+
+Note: You have to create a user by yourself and bind this user to a database. Also a role "dbOwner" is the one which works to create collections and write into it:
+
+#### Example
+
+login to your admin:
+
+    $ mongo admin --port 21111 -u YOURUSERNAME_mongoadmin -p
+
+    # use YOUR_DATABASE
+
+    db.createUser({user: "NEUER_MONGO_USER", password: "SUPERPASSWORT", roles:[{"dbOwner", db: "MEINE_DATENBANK"}]})
+
 
 set :mongo_db, "databaseName"
 set :mongo_host, "localhost"
 set :mongo_user, "your-mongodb-username" # must be created first (Do NOT use the ADMIN)
 set :mongo_password, "your-mongodb-password"
 
-# OR
+or
 
+```
 set :mongo_uri, 'mongodb://user:pass@localhost:PORT/DATABASE_NAME' # DATABASE_NAME could be ENV['APPLICATION']
 
 ```
