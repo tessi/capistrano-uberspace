@@ -10,6 +10,8 @@ namespace :uberspace do
       unless test "[ -f #{shared_path}/.puma-port ]"
         port = capture('python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()\'')
         execute :mkdir, "-p #{shared_path}"
+        puts '*'*50
+        puts "PORT:#{port}"
         upload! StringIO.new(port), "#{shared_path}/.puma-port"
       end
     end
