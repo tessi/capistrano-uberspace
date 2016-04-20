@@ -48,7 +48,7 @@ umask = 077
   task :setup_secrets do
     on roles fetch(:uberspace_roles) do
       secrets = <<-EOF
-#{fetch :passenger_environment}:
+#{fetch :environment}:
   secret_key_base: #{SecureRandom.hex 40}
       EOF
 

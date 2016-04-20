@@ -1,20 +1,20 @@
 namespace :uberspace do
 
-  def passenger_port
-    @passenger_port ||= capture(:cat, "#{shared_path}/.passenger-port")
+  def puma_port
+    @puma_port ||= capture(:cat, "#{shared_path}/.puma-port")
   end
 
-  task :setup_passenger_port do
+  task :setup_puma_port do
     on roles fetch(:uberspace_roles) do
       # find free and available port
-      unless test "[ -f #{shared_path}/.passenger-port ]"
+      unless test "[ -f #{shared_path}/.puma-port ]"
         port = capture('python -c \'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()\'')
         execute :mkdir, "-p #{shared_path}"
-        upload! StringIO.new(port), "#{shared_path}/.passenger-port"
+        upload! StringIO.new(port), "#{shared_path}/.puma-port"
       end
     end
   end
-  after :'uberspace:check', :'uberspace:setup_passenger_port'
+  after :'uberspace:check', :'uberspace:setup_puma_port'
 
   task :setup_daemon do
     on roles fetch(:uberspace_roles) do
@@ -25,7 +25,7 @@ export HOME=#{uberspace_home}
         "export #{k}=#{v}"
       end.join("/n")}
 cd #{fetch :deploy_to}/current
-exec bundle exec passenger start -p #{passenger_port} -e #{fetch :environment} 2>&1
+exec bundle exec rails server --port #{puma_port} -e #{fetch :environment} 2>&1
       EOF
 
       log_script = <<-EOF
@@ -75,7 +75,7 @@ Require valid-user
 #{basic_auth}
 RewriteEngine On
 RewriteBase /
-RewriteRule ^(.*)$ http://localhost:#{passenger_port}/$1 [P]
+RewriteRule ^(.*)$ http://localhost:#{puma_port}/$1 [P]
       EOF
 
       upload! StringIO.new(htaccess), "#{path}/.htaccess"
