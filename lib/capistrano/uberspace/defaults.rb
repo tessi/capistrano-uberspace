@@ -14,7 +14,7 @@ set :environment, -> { fetch(:rails_env) || fetch(:stage) }
 set :uberspace_roles, :all
 set :extra_env_variables, fetch(:extra_env_variables) || {}
 
-set :ruby_version, fetch(:ruby_version, '2.2')
+set :ruby_version, fetch(:ruby_version, '2.3.1')
 
 set :gem_path, (lambda do
   begin
