@@ -2,13 +2,15 @@
 
 Deploy your Rails App to [uberspace](http://uberspace.de) with Capistrano 3.
 
-Has support for MySQL, Potsgresql, and sqlite3 databases. Runs your app with any ruby version available at your uberpace.
+Has support for many databases, ruby versions, and ruby web server.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this to your application's Gemfile:
 
 ```ruby
+# Gemfile
+
 group :development do
   gem 'capistrano', '~> 3.4.0'
   gem 'capistrano-uberspace', github: 'tessi/capistrano-uberspace'
@@ -27,9 +29,12 @@ And then execute:
     $ bundle install
 
 In your `config/deploy.rb` file specify some app properties.
-Important: The application field will be used as part of the service name on uberspace. If you need to run the same application in multiple stages (for example production and staging) on the same server, assign unique application names here (for instance, application-production and application-staging in the according production.rb and staging.rb).
+
+Note: We strongly advice you to deploy only one app per uberspace account. Should you *really* want to deploy multiple apps (or the same app with different stages) on the same uberspace, make sure to set the `application` to something unique for each app. (for instance set `application` to be `my-application-production` in `config/deploy/production.rb` and `my-application-staging` `config/deploy/staging.rb`).
 
 ```ruby
+# config/deploy.rb
+
 set :application, 'MyGreatApp'
 set :repo_url, 'git@github.com:tessi.my_great_app.git'
 ```
@@ -37,6 +42,8 @@ set :repo_url, 'git@github.com:tessi.my_great_app.git'
 Also specify how to reach the uberspace server in your stage definition (e.g. `production.rb`):
 
 ```ruby
+# config/deploy/production.rb
+
 server 'your-host.uberspace.de',
        user: 'uberspace-user',
        roles: [:app, :web, :cron, :db],
@@ -58,6 +65,8 @@ Be sure to [setup the ssh-connection to your uberspace](https://wiki.uberspace.d
 Require the following parts in your `Capfile`:
 
 ```ruby
+# Capfile
+
 require 'capistrano/bundler'
 require 'capistrano/rails'
 require 'capistrano/rails/assets'
@@ -69,7 +78,6 @@ require 'capistrano/uberspace/<your-server>' # replace <your-server> with puma o
 ```
 
 Please bundle the appropriate database-gem in your `Gemfile`.
-
 
 ## Usage
 
@@ -107,6 +115,8 @@ uberspace:db:dump # downloads the latest available backup of your remote databas
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
+For new features, it's best to discuss the idea (in a new issue) before implementing. We might come to a better solution together and save you some work.
+
 ## Thanks
 
 This gem was inspired by the awesome [uberspacify](https://github.com/yeah/uberspacify) gem, which lets you deploy your Rails app to uberspace with Capistrano 2.
@@ -114,4 +124,3 @@ This gem was inspired by the awesome [uberspacify](https://github.com/yeah/ubers
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
-
