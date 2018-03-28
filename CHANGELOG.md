@@ -39,6 +39,14 @@ https://github.com/tessi/capistrano-uberspace/compare/1.1.2...HEAD
 
 * Your contribution here!
 
+## `1.1.3` (2018-03-28)
+
+https://github.com/tessi/capistrano-uberspace/compare/1.1.2...1.1.3
+
+### New features:
+
+* updated rack gem dependency
+
 ## `1.1.2` (2016-01-04)
 
 https://github.com/tessi/capistrano-uberspace/compare/1.1.1...1.1.2
