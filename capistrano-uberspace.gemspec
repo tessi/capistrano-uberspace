@@ -24,7 +24,7 @@ Gem::Specification.new do |gem|
 
   # dependencies for passenger on Uberspace
   gem.add_dependency 'passenger', '~> 5.0'
-  gem.add_dependency 'rack', '~>1.4'
+  gem.add_dependency 'rack', '~>2.0'
 
   gem.add_development_dependency 'bundler', '>= 1.3'
   gem.add_development_dependency 'rake'
