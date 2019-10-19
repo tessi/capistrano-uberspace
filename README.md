@@ -4,6 +4,8 @@ Deploy your Rails App to [uberspace](http://uberspace.de) with Capistrano 3.
 
 Has support for many databases, ruby versions, and ruby web server.
 
+Note: It seems that for new uberspaces (on the uberspace version 7 platform) we get some errors. Any help in fixing these is highly appreciated. See https://github.com/tessi/capistrano-uberspace/issues/15
+
 ## Installation
 
 Add this to your application's Gemfile:
